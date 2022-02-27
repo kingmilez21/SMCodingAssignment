@@ -1,9 +1,9 @@
 # Python code to
 # demonstrate readlines()
 import glob
-import sys
+import os
 import statistics
-from nltk.tokenize import WhitespaceTokenizer
+import nltk
 
 
 def find_keyword(lines, keyword):
@@ -35,7 +35,7 @@ def median(lines):
 
 
 def median_token(lines):
-    tk = WhitespaceTokenizer()
+    tk = nltk.WhitespaceTokenizer()
     length = []
     for line in lines:
         token = tk.tokenize(line)
@@ -52,7 +52,7 @@ def std_deviation(lines):
 
 
 def std_deviation_token(lines):
-    tk = WhitespaceTokenizer()
+    tk = nltk.WhitespaceTokenizer()
     length = []
     length_line = 0
     for line in lines:
@@ -69,7 +69,10 @@ def main():
     #     print(arg)
     # put the additional file as a args and put into a list for time complexity
     # "How to not specfcy the fodler name"
-    for name in glob.glob('C:/Users/ricks/SMCodingAssignment/SMCodingAssignment/*.txt'):
+    directory = os.path.dirname(__file__)
+    filename = os.path.join(directory, 'Input', '*.txt')
+    openfilename = os.path.join(directory, 'Output', 'output.txt')
+    for name in glob.glob(filename):
         with open(name) as fn:
             content = fn.readlines()
             avg = median(content)
@@ -78,7 +81,7 @@ def main():
             med_token = median_token(content)
             std_token = std_deviation_token(content)
             keyword = find_keyword(content, 'right')
-            with open('C:/Users/ricks/SMCodingAssignment/SMCodingAssignment/Output/output.txt', 'w') as text_file:
+            with open(openfilename, 'w') as text_file:
                 text_file.write("The number of duplicates: %d" % dup + '\n')
                 text_file.write("The median: %d" % avg + '\n')
                 text_file.write("The standard deviation: %d" % std + '\n')
